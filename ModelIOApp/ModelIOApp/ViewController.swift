@@ -16,10 +16,10 @@ import SceneKit.ModelIO
 extension MDLMaterial {
     func setTextureProperties(textures: [MDLMaterialSemantic:String]) -> Void {
         for (key,value) in textures {
-            guard let url = NSBundle.mainBundle().URLForResource(value, withExtension: "") else {
+            guard let url = Bundle.main.url(forResource: value, withExtension: "") else {
                 fatalError("Failed to find URL for resource \(value).")
             }
-            let property = MDLMaterialProperty(name:value, semantic: key, URL: url)
+            let property = MDLMaterialProperty(name:value, semantic: key, url: url)
             self.setProperty(property)
         }
     }
@@ -36,12 +36,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Load the .OBJ file
-        guard let url = NSBundle.mainBundle().URLForResource("Fighter", withExtension: "obj") else {
+        guard let url = Bundle.main.url(forResource: "Fighter", withExtension: "obj") else {
             fatalError("Failed to find model file.")
         }
         
-        let asset = MDLAsset(URL:url)
-        guard let object = asset.objectAtIndex(0) as? MDLMesh else {
+        let asset = MDLAsset(url:url)
+        guard let object = asset.object(at: 0) as? MDLMesh else {
             fatalError("Failed to get mesh from asset.")
         }
         
@@ -49,20 +49,20 @@ class ViewController: UIViewController {
         let scatteringFunction = MDLScatteringFunction()
         let material = MDLMaterial(name: "baseMaterial", scatteringFunction: scatteringFunction)
         
-        material.setTextureProperties([
-            .BaseColor:"Fighter_Diffuse_25.jpg",
-            .Specular:"Fighter_Specular_25.jpg",
-            .Emission:"Fighter_Illumination_25.jpg"])
+        material.setTextureProperties(textures: [
+            .baseColor:"Fighter_Diffuse_25.jpg",
+            .specular:"Fighter_Specular_25.jpg",
+            .emission:"Fighter_Illumination_25.jpg"])
         
         // Apply the texture to every submesh of the asset
-        for  submesh in object.submeshes  {
+        for  submesh in object.submeshes!  {
             if let submesh = submesh as? MDLSubmesh {
                 submesh.material = material
             }
         }
         
         // Wrap the ModelIO object in a SceneKit object
-        let node = SCNNode(MDLObject: object)
+        let node = SCNNode(mdlObject: object)
         let scene = SCNScene()
         scene.rootNode.addChildNode(node)
         
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
         sceneView.autoenablesDefaultLighting = true
         sceneView.allowsCameraControl = true
         sceneView.scene = scene
-        sceneView.backgroundColor = UIColor.blackColor()
+        sceneView.backgroundColor = UIColor.black
     }
     
     override func didReceiveMemoryWarning() {
