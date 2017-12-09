@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         let scatteringFunction = MDLScatteringFunction()
         let material = MDLMaterial(name: "baseMaterial", scatteringFunction: scatteringFunction)
         
-        material.setTextureProperties([
+        material.setTextureProperties(textures: [
             .baseColor:"Fighter_Diffuse_25.jpg",
             .specular:"Fighter_Specular_25.jpg",
             .emission:"Fighter_Illumination_25.jpg"])
