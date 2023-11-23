@@ -3,7 +3,7 @@
 //  ModelIOApp
 //
 //  Created by idz on 5/9/16.
-//  Copyright © 2016 iOS Developer Zone.
+//  Copyright © 2016-2023 iOS Developer Zone.
 //  License: MIT
 //  See: https://raw.githubusercontent.com/iosdevzone/GettingStartedWithModelIO/master/LICENSE
 //
@@ -72,12 +72,5 @@ class ViewController: UIViewController {
         sceneView.scene = scene
         sceneView.backgroundColor = UIColor.black
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
 }
 
